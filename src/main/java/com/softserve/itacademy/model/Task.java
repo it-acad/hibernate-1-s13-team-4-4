@@ -28,10 +28,12 @@ public class Task {
     @NotBlank(message = "The task name cannot be empty")
     private String name;
 
-    @Column
+    @Column(name= "priority")
     @Enumerated(EnumType.STRING)
     private Priority priority;
 
+    @Column
+    @ManyToOne(optional = false)
     @JoinColumn(name="state_id", referencedColumnName = "id")
     private State state;
 
