@@ -55,9 +55,5 @@ public class ToDoListApplication implements CommandLineRunner {
         LocalDate localDate = toDo.getCreatedAt().toLocalDate();
         LocalDate today = LocalDate.now();
         System.out.println(localDate.equals(today));
-
-
-
     }
 }
-
