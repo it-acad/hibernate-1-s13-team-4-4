@@ -1,13 +1,16 @@
 package com.softserve.itacademy.model;
 
+
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+
 
 
 @Entity
@@ -27,11 +30,13 @@ public class ToDo {
     private long id;
 
     @NotBlank(message = "The title cannot be empty")
-    @Column
+    @Size(min = 3,max = 120)
+    @Column(name = "title", nullable = false, unique = true)
     private String title;
 
     @CreationTimestamp
     @Column(name= "created_at")
+    @NotNull
     private LocalDate createdAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -64,11 +69,35 @@ public class ToDo {
 
     public void setOwner(User owner) { this.owner = owner; }
 
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public List<User> getCollaborators() {
+        return collaborators;
+    }
+
+    public void setCollaborators(List<User> collaborators) {
+        this.collaborators = collaborators;
+    }
+
+    public List<Task> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(List<Task> tasks) {
+        this.tasks = tasks;
+    }
+
     @Override
     public String toString() {
-        return "\nToDo{" +
-                "title='" + title + '\'' +
-                ", createdAt=" + createdAt +
-                               '}';
+        return "ToDo{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", createdAt=" + LocalDate.now() +
+                ", owner=" + owner +
+                ", collaborators=" + collaborators +
+                ", tasks=" + tasks +
+                '}';
     }
 }
