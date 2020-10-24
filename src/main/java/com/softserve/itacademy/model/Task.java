@@ -23,20 +23,22 @@ public class Task {
     )
     private long id;
 
-    @Column(name= "name")
-    @Length(min =3, max= 200)
-    @NotBlank(message = "The task name cannot be empty")
+    @Column(name = "name")
+    @NotBlank(message = "The taskName cannot be empty")
+    @Length(min = 3, max = 200, message = "The taskName must consist of minimum 3 and maximum 200 any symbols")
     private String name;
 
-    @Column(name= "priority")
+    @Column(name = "priority")
     @Enumerated(EnumType.STRING)
     private Priority priority;
 
-    @Column
-    @ManyToOne(optional = false)
-    @JoinColumn(name="state_id", referencedColumnName = "id")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "state_id", referencedColumnName = "id")
     private State state;
 
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "todo_id", referencedColumnName = "id")
+    private ToDo todo;
 
     public Task() {    }
 
@@ -50,13 +52,28 @@ public class Task {
 
     public void setPriority(Priority priority) { this.priority = priority; }
 
+    public State getState() {
+        return state;
+    }
+
+    public void setState(State state) {
+        this.state = state;
+    }
+
+    public ToDo getTodo() {
+        return todo;
+    }
+
+    public void setTodo(ToDo todo) {
+        this.todo = todo;
+    }
 
     @Override
     public String toString() {
-        return "Task{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", priority=" + priority +
+        return "Task {" +
+                "id = " + id +
+                ", name = '" + name + '\'' +
+                ", priority = " + priority +
                 '}';
     }
 }

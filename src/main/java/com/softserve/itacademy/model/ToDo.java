@@ -64,6 +64,14 @@ public class ToDo {
 
     public void setOwner(User owner) { this.owner = owner; }
 
+    public List<Task> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(List<Task> tasks) {
+        this.tasks = tasks;
+    }
+
     @Override
     public String toString() {
         return "\nToDo{" +

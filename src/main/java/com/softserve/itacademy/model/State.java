@@ -4,6 +4,7 @@ package com.softserve.itacademy.model;
 import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.List;
 import java.util.Objects;
 
 
@@ -28,6 +29,9 @@ public class State {
     @NotBlank(message = "The state name cannot be empty")
     String name;
 
+    @OneToMany(mappedBy = "state", cascade = CascadeType.REMOVE)
+    private List<Task> tasks;
+
     public State() {  }
 
     public long getId() { return id; }
@@ -37,6 +41,14 @@ public class State {
     public String getName() { return name; }
 
     public void setName(String name) { this.name = name; }
+
+    public List<Task> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(List<Task> tasks) {
+        this.tasks = tasks;
+    }
 
     @Override
     public String toString() {
