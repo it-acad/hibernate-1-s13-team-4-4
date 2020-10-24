@@ -40,7 +40,7 @@ public class User  {
     private String lastName;
 
     @Column
-    @NotNull
+    @NotBlank
     @Email
     private String email;
 
