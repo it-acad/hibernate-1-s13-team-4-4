@@ -6,7 +6,7 @@ import org.hibernate.annotations.Parameter;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.List;
-
+@SuppressWarnings("JpaDataSourceORMInspection")
 @Entity
 @Table(name = "roles")
 public class Role {

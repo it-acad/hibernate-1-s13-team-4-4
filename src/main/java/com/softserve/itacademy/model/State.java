@@ -1,47 +1,54 @@
 package com.softserve.itacademy.model;
 
-
-import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import java.util.Objects;
-
-
+import javax.validation.constraints.Pattern;
+import java.util.List;
+@SuppressWarnings("JpaDataSourceORMInspection")
 @Entity
 @Table(name = "states")
 public class State {
-
     @Id
-    @GeneratedValue(generator = "sequence-generator")
-    @GenericGenerator(
-            name = "sequence-generator",
-            strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
-            parameters = {
-                    @org.hibernate.annotations.Parameter(name = "sequence_name", value = "state_sequence"),
-                    @org.hibernate.annotations.Parameter(name = "initial_value", value = "1"),
-                    @org.hibernate.annotations.Parameter(name = "increment_size", value = "1")
-            }
-    )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name= "name")
-    @NotBlank(message = "The state name cannot be empty")
-    String name;
+    @NotBlank(message = "The name cannot be empty")
+    @Pattern(regexp = "[a-zA-Z0-9 _-]$", message = "The state should contain only: latin letters, numbers, dash, space and underscore")
+    @Column(name = "name", nullable = false, unique = true)
+    @Pattern(regexp = "^[a-zA-Z0-9-\\- _]{0,20}$")
+    private String name;
 
-    public State() {  }
+    @OneToMany(mappedBy = "state")
+    private List<Task> tasks;
 
-    public long getId() { return id; }
+    public State() {
+    }
 
-    public State(String name) { this.name = name; }
+    public long getId() {
+        return id;
+    }
 
-    public String getName() { return name; }
+    public String getName() {
+        return name;
+    }
 
-    public void setName(String name) { this.name = name; }
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public List<Task> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(List<Task> tasks) {
+        this.tasks = tasks;
+    }
 
     @Override
     public String toString() {
-        return "State{" +
-                "name='" + name + '\'' +
-                '}';
+        return "State {" +
+                "id = " + id +
+                ", name = '" + name + '\'' +
+                "} ";
     }
 }

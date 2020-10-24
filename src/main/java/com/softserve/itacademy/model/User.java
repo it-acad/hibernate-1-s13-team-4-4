@@ -1,65 +1,60 @@
 package com.softserve.itacademy.model;
 
-import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.util.List;
-
-
+@SuppressWarnings("JpaDataSourceORMInspection")
 @Entity
 @Table(name = "users")
 public class User  {
-
     @Id
-    @GeneratedValue(generator = "sequence-generator")
-    @GenericGenerator(
-            name = "sequence-generator",
-            strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
-            parameters = {
-                    @org.hibernate.annotations.Parameter(name = "sequence_name", value = "user_sequence"),
-                    @org.hibernate.annotations.Parameter(name = "initial_value", value = "1"),
-                    @org.hibernate.annotations.Parameter(name = "increment_size", value = "1")
-            }
-    )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name= "first_name")
-    @NotBlank(message = "The firstname cannot be empty")
-    @NotNull
-    @Pattern(regexp = "[A-Z][a-z]+\\-[A-Z][a-z]+|[A-Z][a-z]+")
+    @Pattern(regexp = "[A-Z][a-z]+\\-[A-Z][a-z]+|[A-Z][a-z]+",
+            message = "Check your first name")
+    @Column(name = "first_name", nullable = false)
     private String firstName;
 
-
-    @Column(name= "last_name")
-    @NotBlank(message = "The lastname cannot be empty")
-    @NotNull
-    @Pattern(regexp = "[A-Z][a-z]+\\-[A-Z][a-z]+|[A-Z][a-z]+")
+    @Pattern(regexp = "[A-Z][a-z]+\\-[A-Z][a-z]+|[A-Z][a-z]+",
+            message = "Check your last name")
+    @Column(name = "last_name", nullable = false)
     private String lastName;
 
-    @Column
-    @NotNull
     @Email
+    @NotBlank
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @Column
+    @Pattern(regexp = "[\\d\\w\\@\\!\\*\\%\\.]+")
+    @Column(name = "password", nullable = false)
     private String password;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
+    @JoinColumn(name = "role_id")
     private Role role;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "owner")
-    private List<ToDo> toDoList;
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.REMOVE)
+    private List<ToDo> myTodos;
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "collaborators")
-    private Set<ToDo> collaboratorsToDos;
+    @ManyToMany
+    @JoinTable(name = "todo_collaborator",
+            joinColumns = @JoinColumn(name = "collaborator_id"),
+            inverseJoinColumns = @JoinColumn(name = "todo_id"))
+    private List<ToDo> otherTodos;
 
+    public User() {
+    }
 
-    public User() {  }
+    public long getId() {
+        return id;
+    }
 
-    public long getId() { return id; }
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public String getFirstName() {
         return firstName;
@@ -101,15 +96,35 @@ public class User  {
         this.role = role;
     }
 
+    public List<ToDo> getMyTodos() {
+        return myTodos;
+    }
+
+    public void setMyTodos(List<ToDo> myTodos) {
+        this.myTodos = myTodos;
+    }
+
+    public List<ToDo> getOtherTodos() {
+        return otherTodos;
+    }
+
+    public void setOtherTodos(List<ToDo> todos) {
+        this.otherTodos = todos;
+    }
+
+    public String getUsername() {
+        return email;
+    }
+
     @Override
     public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", role=" + role +
-                '}';
+        return "User {" +
+                "id = " + id +
+                ", firstName = '" + firstName + '\'' +
+                ", lastName = '" + lastName + '\'' +
+                ", email = '" + email + '\'' +
+                ", password = '" + password + '\'' +
+                ", role = " + role +
+                "} ";
     }
 }
