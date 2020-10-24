@@ -90,6 +90,14 @@ public class ToDo {
         this.collaborators = users;
     }
 
+    public List<Task> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(List<Task> tasks) {
+        this.tasks = tasks;
+    }
+
     @Override
     public String toString() {
         return "ToDo{" +
