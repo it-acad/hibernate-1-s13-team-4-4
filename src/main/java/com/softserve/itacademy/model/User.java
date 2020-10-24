@@ -28,29 +28,31 @@ public class User  {
 
     @Column(name= "first_name")
     @NotBlank(message = "The firstname cannot be empty")
+    @NotNull
     private String firstName;
 
 
     @Column(name= "last_name")
     @NotBlank(message = "The lastname cannot be empty")
+    @NotNull
     private String lastName;
 
-    @Column(name= "email")
+    @Column
+    @NotNull
+    @Email
     private String email;
 
-    @Column(name= "password")
+    @Column
     private String password;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Role role;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name="todo_collaborator",
-            joinColumns = @JoinColumn(name= "collaborator_id", referencedColumnName= "id"),
-            inverseJoinColumns = @JoinColumn(name= "todo_id", referencedColumnName = "id")
-    )
-    private Set<ToDo> collaboratorsTodos;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "owner")
+    private List<ToDo> toDoList;
 
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "collaborators")
+    private Set<ToDo> collaboratorsToDos;
 
 
     public User() {  }
