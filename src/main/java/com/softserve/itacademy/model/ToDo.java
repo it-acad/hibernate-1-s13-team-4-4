@@ -5,10 +5,9 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
-
 
 
 @Entity
@@ -28,12 +27,12 @@ public class ToDo {
     private long id;
 
     @NotBlank(message = "The title cannot be empty")
-    @Column(nullable = false, unique = true)
+    @Column
     private String title;
 
-    @Column(name= "created_at", columnDefinition = "TIMESTAMP")
-    @NotNull
-    private LocalDateTime createdAt;
+    @CreationTimestamp
+    @Column(name= "created_at")
+    private LocalDate createdAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "owner_id", referencedColumnName= "id")
@@ -57,9 +56,9 @@ public class ToDo {
 
     public void setTitle(String title) { this.title = title; }
 
-    public LocalDateTime getCreatedAt() { return createdAt; }
+    public LocalDate getCreatedAt() { return createdAt; }
 
-    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+    public void setCreatedAt(LocalDate createdAt) { this.createdAt = createdAt; }
 
     public User getOwner() { return owner; }
 
