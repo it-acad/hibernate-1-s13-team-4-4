@@ -15,7 +15,7 @@ public class ToDo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @NotBlank(message = "The 'title' cannot be empty")
+    @NotBlank(message = "The title cannot be empty")
     @Column(name = "title", nullable = false, unique = true)
     @Size(min = 3,max = 120)
     private String title;

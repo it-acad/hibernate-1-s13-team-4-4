@@ -14,12 +14,12 @@ public class User  {
     private long id;
 
     @Pattern(regexp = "[A-Z][a-z]+\\-[A-Z][a-z]+|[A-Z][a-z]+",
-            message = "Must start with a capital letter followed by one or more lowercase letters")
+            message = "Check your first name")
     @Column(name = "first_name", nullable = false)
     private String firstName;
 
     @Pattern(regexp = "[A-Z][a-z]+\\-[A-Z][a-z]+|[A-Z][a-z]+",
-            message = "Must start with a capital letter followed by one or more lowercase letters")
+            message = "Check your last name")
     @Column(name = "last_name", nullable = false)
     private String lastName;
 

@@ -12,7 +12,7 @@ public class State {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @NotBlank(message = "The 'name' cannot be empty")
+    @NotBlank(message = "The name cannot be empty")
     @Pattern(regexp = "[a-zA-Z0-9 _-]$", message = "The state should contain only: latin letters, numbers, dash, space and underscore")
     @Column(name = "name", nullable = false, unique = true)
     @Pattern(regexp = "^[a-zA-Z0-9-\\- _]{0,20}$")
