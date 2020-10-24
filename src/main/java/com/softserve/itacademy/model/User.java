@@ -29,12 +29,14 @@ public class User  {
     @Column(name= "first_name")
     @NotBlank(message = "The firstname cannot be empty")
     @NotNull
+    @Pattern(regexp = "[A-Z][a-z]+\\-[A-Z][a-z]+|[A-Z][a-z]+")
     private String firstName;
 
 
     @Column(name= "last_name")
     @NotBlank(message = "The lastname cannot be empty")
     @NotNull
+    @Pattern(regexp = "[A-Z][a-z]+\\-[A-Z][a-z]+|[A-Z][a-z]+")
     private String lastName;
 
     @Column
